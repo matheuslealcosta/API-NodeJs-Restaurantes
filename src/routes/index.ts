@@ -21,6 +21,10 @@ routes.post('/restaurantes', RestauranteController.createRestaurante);
 routes.put('/restaurantes/:id',LoginController.verificaToken, RestauranteController.updateRestaurante);
 routes.delete('/restaurantes/:id',LoginController.verificaToken, RestauranteController.deleteRestaurante);
 
-
+routes.get('/produtos',LoginController.verificaToken, ProdutoController.getProdutos);
+routes.get('/produtos/:id',LoginController.verificaToken, ProdutoController.getProdutoById);
+routes.post('/produtos/:restauranteId',LoginController.verificaToken, ProdutoController.createProduto);
+routes.put('/produtos/:id',LoginController.verificaToken, ProdutoController.updateProduto);
+routes.delete('/produtos/:id',LoginController.verificaToken, ProdutoController.deleteProduto);
 
 export { routes };
