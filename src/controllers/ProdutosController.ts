@@ -43,4 +43,28 @@ export class ProdutoController {
     }
   };
 
+
+
+
+
+
+  static getProdutos = async (req: Request, res: Response) => {
+    try {
+      const produtos = await prisma.produto.findMany({
+        include: {pedido: true} 
+      });
+
+      res.status(200).json(produtos);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
+
+
+
+
+
+
+
 }
