@@ -9,3 +9,52 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Restaurante {
+  id                  Int       @id @default(autoincrement())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  nome                String
+  email               String    @unique
+  senha               String
+  categoria           String
+  cidade              String
+  endereco            String
+  telefone            String    @unique
+  produto_restaurante Produto[]
+  pedido_restaurante  Pedido[]
+
+  @@map("restaurantes")
+}
+
+model Produto {
+  id            Int         @id @default(autoincrement())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  nome          String
+  descricao     String
+  quantidade    String
+  preco         String
+  categoria     String
+  RestauranteId Int
+  restaurante   Restaurante @relation(fields: [RestauranteId], references: [id])
+  pedido        Pedido[] 
+
+  @@map("produtos")
+}
+
+model Pedido {
+  id               Int         @id @default(autoincrement())
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  valor_total      String
+  nome_cliente     String
+  cidade_cliente   String
+  endereco_cliente String
+  telefone_cliente String
+  RestauranteId    Int
+  restaurante      Restaurante @relation(fields: [RestauranteId], references: [id])
+  produtos         Produto[]
+
+  @@map("pedidos")
+}
