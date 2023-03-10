@@ -1,0 +1,36 @@
+import { PrismaClient } from '@prisma/client';
+import { Request, Response } from 'express';
+
+const prisma = new PrismaClient();
+
+export class RestauranteController {
+
+    static createRestaurante = async (req: Request, res: Response) => {
+      const { nome, email, senha, categoria, cidade, endereco, telefone } = req.body;
+    
+      try {
+        const restaurante = await prisma.restaurante.create({
+          data: { nome, email, senha, categoria, cidade, endereco, telefone }
+        });
+    
+        res.status(201).json(restaurante);
+      } catch (error: any) {
+        res.status(500).json({ message: error.message });
+      }
+    };
+    
+    static getRestaurantes = async (req: Request, res: Response) => {
+      try {
+        const restaurantes = await prisma.restaurante.findMany();
+        res.status(200).json(restaurantes);
+      } catch (error: any) {
+        res.status(500).json({ message: error.message });
+      }
+    };
+    
+
+    
+
+
+
+}    
