@@ -15,4 +15,12 @@ routes.post('/pedidos/:restauranteId',LoginController.verificaToken , PedidosCon
 routes.put('/pedidos/:id',LoginController.verificaToken , PedidosController.updatePedido);
 routes.delete('/pedidos/:id',LoginController.verificaToken , PedidosController.deletePedido);
 
+routes.get('/restaurantes',LoginController.verificaToken , RestauranteController.getRestaurantes);
+routes.get('/restaurantes/:id',LoginController.verificaToken, RestauranteController.getRestauranteById);
+routes.post('/restaurantes', RestauranteController.createRestaurante);
+routes.put('/restaurantes/:id',LoginController.verificaToken, RestauranteController.updateRestaurante);
+routes.delete('/restaurantes/:id',LoginController.verificaToken, RestauranteController.deleteRestaurante);
+
+
+
 export { routes };
