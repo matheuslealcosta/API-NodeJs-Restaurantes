@@ -84,7 +84,49 @@ export class PedidosController {
 
 
 
+  static updatePedido = async (req: Request, res: Response) => {
+    const {
+      valor_total,
+      nome_cliente,
+      cidade_cliente,
+      endereco_cliente,
+      telefone_cliente,
+      RestauranteId
+    } = req.body;
+    const { id } = req.params;
 
+    const restt = await prisma.restaurante.findUnique({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    if (!restt) {
+      res
+        .status(500)
+        .json({
+          message: `Pedido com ID ${id} não encontrado.`,
+        });
+      return;
+    }
+    try {
+      const pedido = await prisma.pedido.update({
+        where: { id: parseInt(id) },
+        data: {
+          valor_total,
+          nome_cliente,
+          cidade_cliente,
+          endereco_cliente,
+          telefone_cliente,
+          RestauranteId,
+        },
+      });
+
+      res.status(201).json(pedido);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 
 
 
