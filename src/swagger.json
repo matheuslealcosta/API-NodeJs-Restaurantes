@@ -1,0 +1,856 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "API de Pedidos",
+      "description": "API desenvolvida para controlar a entrada de pedidos e seus produtos aos respectivos restaurantes",
+      "contact": {
+        "email": "matheuslealcosta@icloud.com"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3000",
+        "description": "servidor local"
+      }
+    ],
+    "paths": {
+      "/login": {
+        "post": {
+          "summary": "Realiza o login de um restaurante",
+          "description": "Essa rota realiza a autenticação de um restaurante e retorna o token de acesso necessário para acessar as rotas protegidas.",
+          "tags": ["Login"],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginRequest"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Autenticação bem sucedida",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/LoginResponse"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Parâmetros inválidos",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Credenciais inválidas",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/restaurantes": {
+        "post": {
+          "summary": "Cadastra novo restaurante",
+          "description": "Rota responsável por criar novos restaurantes",
+          "tags": ["Restaurante"],
+          "security": [{ "bearerAuth": [] }],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Restaurante"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Restaurante"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "get": {
+          "summary": "Acha todos os restaurante",
+          "description": "Rota responsável por achar todos os restaurantes",
+          "tags": ["Restaurante"],
+          "security": [{ "bearerAuth": [] }],
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Restaurante"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/restaurantes/{id}": {
+        "get": {
+          "summary": "Acha restaurante por ID",
+          "description": "Rota responsável por achar restaurantes pelo seu ID",
+          "tags": ["Restaurante"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Restaurante por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Restaurante"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Edita restaurante por ID",
+          "description": "Rota responsável por editar restaurantes pelo seu ID",
+          "tags": ["Restaurante"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Restaurante por ID",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Restaurante"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Restaurante"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Deleta restaurante por ID",
+          "description": "Rota responsável por Deletar restaurantes pelo seu ID",
+          "tags": ["Restaurante"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Restaurante por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "204": {
+              "descricao": "Restaurante Deletado"
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/produtos/{restauranteId}": {
+        "post": {
+          "summary": "Cria produto",
+          "description": "Cria produto com relacionamentos de restaurante e pedidos",
+          "tags": ["Produtos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "restauranteId",
+              "in": "path",
+              "description": "Restaurante ID",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Produto"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/produtos": {
+        "get": {
+          "summary": "Acha todos os produtos",
+          "description": "Rota responsável por achar todos os produtos",
+          "tags": ["Produtos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Restaurante por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Produto"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/produtos/{id}": {
+        "get": {
+          "summary": "Acha produtos por ID",
+          "description": "Rota responsável por achar produtos pelo ID",
+          "tags": ["Produtos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Produtos por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Produto"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Edita produtos por ID",
+          "description": "Rota responsável por editar produtos pelo seu ID",
+          "tags": ["Produtos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Produtos por ID",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Produto"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Deleta produto por ID",
+          "description": "Rota responsável por Deletar produto pelo seu ID",
+          "tags": ["Produtos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Produto por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "204": {
+              "descricao": "Produto deletado"
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/pedidos/{restauranteId}": {
+        "post": {
+          "summary": "Cria pedido",
+          "description": "Cria pedido com relacionamentos de restaurante e produtos",
+          "tags": ["Pedidos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "restauranteId",
+              "in": "path",
+              "description": "Restaurante ID",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Pedido"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/pedido": {
+        "get": {
+          "summary": "Acha todos os pedidos",
+          "description": "Rota responsável por achar todos os pedidos",
+          "tags": ["Pedidos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Restaurante por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Pedido"
+                    }
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/pedidos/{id}": {
+        "get": {
+          "summary": "Acha pedido por ID",
+          "description": "Rota responsável por achar pedido pelo ID",
+          "tags": ["Pedidos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Pedido por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Pedido"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "put": {
+          "summary": "Edita pedido por ID",
+          "description": "Rota responsável por editar pedido pelo seu ID",
+          "tags": ["Pedidos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Pedido por ID",
+              "required": true
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pedido"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "ok",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Pedido"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Deleta pedido por ID",
+          "description": "Rota responsável por deletar pedido pelo seu ID",
+          "tags": ["Pedidos"],
+          "security": [{ "bearerAuth": [] }],
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "description": "Pedido por ID",
+              "required": true
+            }
+          ],
+          "responses": {
+            "204": {
+              "descricao": "pedido deletado"
+            },
+            "500": {
+              "description": "Erro interno do servidor",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Restaurante": {
+          "type": "object",
+          "properties": {
+            "nome": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "senha": {
+              "type": "string"
+            },
+            "categoria": {
+              "type": "string"
+            },
+            "cidade": {
+              "type": "string"
+            },
+            "endereco": {
+              "type": "string"
+            },
+            "telefone": {
+              "type": "string"
+            },
+            "pedido": {
+              "type": "integer"
+            }
+          }
+        },
+        "Produto": {
+          "type": "object",
+          "properties": {
+            "nome": {
+              "type": "string"
+            },
+            "descricao": {
+              "type": "string"
+            },
+            "quantidade": {
+              "type": "string"
+            },
+            "preco": {
+              "type": "string"
+            },
+            "categoria": {
+              "type": "string"
+            },
+            "pedidoId": {
+              "type": "integer"
+            }
+          }
+        },
+        "Pedido": {
+          "type": "object",
+          "properties": {
+            "valor_total": {
+              "type": "string"
+            },
+            "nome_cliente": {
+              "type": "string"
+            },
+            "cidade_cliente": {
+              "type": "string"
+            },
+            "endereco_cliente": {
+              "type": "string"
+            },
+            "telefone_cliente": {
+              "type": "string"
+            },
+            "produtoId": {
+              "type": "integer"
+            }
+          }
+        },
+        "LoginResponse": {
+          "type": "object",
+          "properties": {
+            "user": {
+              "$ref": "#/components/schemas/Restaurante"
+            },
+            "token": {
+              "type": "string",
+              "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjc3NjM1Njk2LCJleHAiOjE2Nzc2MzkyOTZ9.nvavImdenFzqp0vZ-MjYC5m-Ve1Cdm12944WzGGRLeQ"
+            }
+          }
+        },
+        "LoginRequest": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "O e-mail do usuário que está fazendo login.",
+              "example": "johndoe@example.com"
+            },
+            "password": {
+              "type": "string",
+              "description": "A senha do usuário que está fazendo login.",
+              "example": "mypassword"
+            }
+          }
+        }
+      },
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      }
+    }
+  }
+  
