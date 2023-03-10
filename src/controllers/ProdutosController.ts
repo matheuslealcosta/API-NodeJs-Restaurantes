@@ -89,5 +89,26 @@ export class ProdutoController {
 
 
 
+  static updateProduto = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { nome, descricao, quantidade, preco, categoria, RestauranteId, pedidosId} = req.body;
+
+    try {
+      const produto = await prisma.produto.update({
+        where: { id: parseInt(id) },
+        data: { nome, descricao, quantidade, preco, categoria, RestauranteId}
+      });
+
+      res.status(200).json(produto);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+
+
+
+
+
+
 
 }
