@@ -110,5 +110,17 @@ export class ProdutoController {
 
 
 
+  static deleteProduto = async (req: Request, res: Response) => {
+    const { id } = req.params;
 
+    try {
+      await prisma.produto.delete({
+        where: { id: parseInt(id) }
+      });
+
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 }
