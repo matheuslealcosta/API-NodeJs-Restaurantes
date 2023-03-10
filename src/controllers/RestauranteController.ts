@@ -28,7 +28,23 @@ export class RestauranteController {
       }
     };
     
-
+    static getRestauranteById = async (req: Request, res: Response) => {
+      const { id } = req.params;
+    
+      try {
+        const restaurante = await prisma.restaurante.findUnique({
+          where: { id: parseInt(id) }
+        });
+    
+        if (!restaurante) {
+          res.status(404).json({ message: `Restaurante com ID ${id} não encontrado.` });
+        } else {
+          res.status(200).json(restaurante);
+        }
+      } catch (error: any) {
+        res.status(500).json({ message: error.message });
+      }
+    };
     
 
 
