@@ -9,5 +9,10 @@ const routes = express.Router();
 
 routes.post('/login', LoginController.login);
 
+routes.get('/pedidos',LoginController.verificaToken , PedidosController.getPedido);
+routes.get('/pedidos/:id',LoginController.verificaToken , PedidosController.getPedidoById);
+routes.post('/pedidos/:restauranteId',LoginController.verificaToken , PedidosController.createPedido);
+routes.put('/pedidos/:id',LoginController.verificaToken , PedidosController.updatePedido);
+routes.delete('/pedidos/:id',LoginController.verificaToken , PedidosController.deletePedido);
 
 export { routes };
