@@ -62,6 +62,18 @@ export class RestauranteController {
       }
     };
     
-
+    static deleteRestaurante = async (req: Request, res: Response) => {
+      const { id } = req.params;
+    
+      try {
+        await prisma.restaurante.delete({
+          where: { id: parseInt(id) }
+        });
+    
+        res.status(204).send();
+      } catch (error: any) {
+        res.status(500).json({ message: error.message });
+      }
+    };
 
 }    
