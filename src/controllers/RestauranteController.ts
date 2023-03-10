@@ -46,7 +46,22 @@ export class RestauranteController {
       }
     };
     
-
+    static updateRestaurante = async (req: Request, res: Response) => {
+      const { id } = req.params;
+      const { nome, email, senha, categoria, cidade, endereco, telefone } = req.body;
+    
+      try {
+        const restaurante = await prisma.restaurante.update({
+          where: { id: parseInt(id) },
+          data: { nome, email, senha, categoria, cidade, endereco, telefone }
+        });
+    
+        res.status(200).json(restaurante);
+      } catch (error: any) {
+        res.status(500).json({ message: error.message });
+      }
+    };
+    
 
 
 }    
