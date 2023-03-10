@@ -132,5 +132,16 @@ export class PedidosController {
 
 
 
+  static deletePedido = async (req: Request, res: Response) => {
+    const { id } = req.params;
 
+    try {
+      await prisma.pedido.delete({
+        where: { id: parseInt(id) }
+      });
+      res.status(204).send();
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 }
