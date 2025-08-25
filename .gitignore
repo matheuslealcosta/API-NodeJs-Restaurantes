@@ -1,3 +1,104 @@
-node_modules
-# Keep environment variables out of version control
+# === DEPENDÊNCIAS ===
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# === RUNTIME ===
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# === LOGS ===
+logs/
+*.log
+
+# === COVERAGE & TESTS ===
+coverage/
+.coverage/
+.nyc_output/
+lib-cov/
+*.lcov
+.mocha_reporter_output
+
+# === BUILD OUTPUT ===
+dist/
+build/
+.next/
+out/
+
+# === CACHE ===
+.npm
+.eslintcache
+.parcel-cache/
+.cache/
+*.tsbuildinfo
+
+# === ENVIRONMENT ===
 .env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# === IDE ===
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# === OS ===
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# === PRISMA ===
+# Mantenha schema e migrations
+!prisma/schema.prisma
+!prisma/migrations/
+
+# === DOCKER ===
+# Volumes do Docker
+postgres_data/
+pgadmin_data/
+
+# === TEMPORARY ===
+tmp/
+temp/
+*.tmp
+*.temp
+
+# === DATABASE ===
+*.sqlite
+*.sqlite3
+*.db
+
+# === UPLOADS ===
+uploads/
+public/uploads/
+
+# === SSL ===
+*.pem
+*.key
+*.crt
+
+# === BACKUP ===
+*.backup
+*.bak
+*.old
+
+# === LOCAL CONFIG ===
+.local
+local.*

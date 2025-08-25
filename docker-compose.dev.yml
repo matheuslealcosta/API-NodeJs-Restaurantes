@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # Banco de dados PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: restaurants_db_dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: restaurants_api_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - restaurants_dev_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Aplicação Node.js para desenvolvimento
+  api:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: restaurants_api_dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://postgres:postgres123@postgres:5432/restaurants_api_dev?schema=public
+      JWT_SECRET: dev-secret-key
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      # Hot reload - monta o código fonte
+      - ./src:/app/src
+      - ./prisma:/app/prisma
+      - /app/node_modules
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - restaurants_dev_network
+    command: ["npm", "run", "dev"]
+
+  # pgAdmin para gerenciamento do banco
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: restaurants_pgadmin_dev
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@restaurants.com
+      PGADMIN_DEFAULT_PASSWORD: dev123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_dev_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - restaurants_dev_network
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  pgadmin_dev_data:
+    driver: local
+
+networks:
+  restaurants_dev_network:
+    driver: bridge

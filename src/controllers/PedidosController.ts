@@ -144,4 +144,19 @@ export class PedidosController {
       res.status(500).json({ message: error.message });
     }
   };
+
+  static getPedidosByRestaurante = async (req: Request, res: Response) => {
+    const { restauranteId } = req.params;
+
+    try {
+      const pedidos = await prisma.pedido.findMany({
+        where: { RestauranteId: parseInt(restauranteId) },
+        include: { produtos: true, restaurante: true }
+      });
+
+      res.status(200).json(pedidos);
+    } catch (error: any) {
+      res.status(500).json({ message: error.message });
+    }
+  };
 }
