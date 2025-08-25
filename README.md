@@ -401,16 +401,12 @@ Execute: `make db-seed` ou `npm run db:seed`
 - Atualize a documentação quando necessário
 - Use commits semânticos (feat, fix, docs, etc.)
 
-## 📝 Licença
-
-Este projeto está sob a licença **ISC**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
-
 ## 👨‍💻 Autor
 
 **Matheus Leal Costa**
 - GitHub: [@matheuslealcosta](https://github.com/matheuslealcosta)
 - Email: matheuslealcosta@icloud.com
-- LinkedIn: [LinkedIn](https://linkedin.com/in/seu-perfil)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/matheus-leal-costa/)
 
 ---
 
